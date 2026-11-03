@@ -576,25 +576,8 @@ body.dm #phul{opacity:0}
   </div></div>
 </section>
 
-<!-- PAGE 7 · MISSION -->
-<section class="page" id="p7" data-n="6" data-stamp="CLASSIFIED" data-icon="🕵️" aria-label="Your secret mission">
-  <div class="leaf"><div class="bd">
-    <div class="kicker">🕵️ Your Secret Mission</div>
-    <h2>Every guest<br>gets one.</h2>
-    <div class="dossier">
-      <span class="cls">TOP SECRET</span>
-      <div class="lockico">🔒</div>
-      <div class="mno">MISSION #???</div>
-      <div class="redact"><i></i><i></i><i></i></div>
-      <div class="rv">REVEALED ONLY AFTER RSVP</div>
-    </div>
-    <p class="sub">You won’t know anyone else’s mission. They won’t know yours.<br>At the party, people will be wondering: <b>“WHY IS EVERYONE ACTING WEIRD?”</b></p>
-    <button class="btn full" data-next>On to the RSVP →</button>
-  </div></div>
-</section>
-
 <!-- PAGE 8 · RSVP -->
-<section class="page" id="p8" data-n="7" data-stamp="LOCK IT IN" data-icon="💌" aria-label="RSVP">
+<section class="page" id="p8" data-n="6" data-stamp="LOCK IT IN" data-icon="💌" aria-label="RSVP">
   <div class="leaf"><div class="bd">
     <div class="kicker">💌 RSVP</div>
     <div class="stage on" id="stA">
@@ -655,8 +638,6 @@ body.dm #phul{opacity:0}
         </div>
         <div class="lbl">Dress Code</div><div class="val">Ethnic. Go all out 🥻</div>
         <div class="lbl">Fate</div><div class="val" id="pFate">—</div>
-        <div class="lbl">Secret Mission</div>
-        <div id="pMission"><button class="dec" id="decrypt">🔓 TAP TO DECRYPT</button></div>
       </div>
       <div class="perf"></div>
       <div class="ft">
@@ -755,16 +736,6 @@ const AURAS = {
   '🖤 Midnight Luxe': { tag: 'MIDNIGHT LUXE 🖤' },
   '✨ Bollywood Main Character': { tag: 'MAIN CHARACTER ✨' }
 };
-const MISSIONS = [
-  [47, 'Get someone to do a Bollywood dance with you.'],
-  [21, 'Take a picture with someone you’ve never met.'],
-  [69, 'Convince someone that you’re the host.'],
-  [108, 'Start a “Jai Shri Ram” chant at the worst possible moment. 😂'],
-  [8, 'Get three people to say “Happy Diwali” in three different accents.'],
-  [34, 'Get the DJ to dedicate a song to someone who doesn’t know it’s them.'],
-  [76, 'Feed someone a sweet they swore they didn’t want.'],
-  [5, 'Give five genuine, very specific outfit compliments.']
-];
 const FATES = [
   ['🪔', 'THE SOCIAL BUTTERFLY', 'You will talk to at least 17 people tonight.'],
   ['🥂', 'THE CHAOS AGENT', 'You will somehow end up on the dance floor.'],
@@ -789,7 +760,7 @@ const store = {
   set(v) { try { localStorage.setItem(KEY, JSON.stringify(v)) } catch {} },
   clear() { try { localStorage.removeItem(KEY) } catch {} }
 };
-let S = Object.assign({ guests: '', name: '', aura: '', fate: null, mission: null, rsvp: '', party: 0, lucky: 0, luckyShown: false, confirmed: false, decoded: false }, store.get());
+let S = Object.assign({ guests: '', name: '', aura: '', fate: null, rsvp: '', party: 0, lucky: 0, luckyShown: false, confirmed: false }, store.get());
 const save = () => store.set(S);
 let remote = { guests: [] };
 
@@ -798,7 +769,6 @@ let tt;
 function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2400); }
 function hash(s) { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 const pad = n => String(n).padStart(2, '0');
-const fmtMission = m => 'Mission #' + String(m[0]).padStart(3, '0') + ': ' + m[1];
 const dateLong = () => EVENT.start.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 function post(payload) {
   if (!CONFIG.endpoint) return Promise.resolve(null);
@@ -1069,35 +1039,35 @@ function stampSVG(id, text, icon) {
 $$('.leaf').forEach(leaf => {
   const pg = leaf.closest('.page'), n = pg.dataset.n;
   leaf.insertAdjacentHTML('afterbegin', '<i class="cn a"></i><i class="cn b"></i><i class="cn c"></i><i class="cn d"></i>' +
-    `<div class="phead"><span>REPUBLIC OF DIWALI</span><span>PAGE ${pad(n)} / 07</span></div><div class="pstamp">${stampSVG(n, pg.dataset.stamp, pg.dataset.icon)}</div>`);
+    `<div class="phead"><span>REPUBLIC OF DIWALI</span><span>PAGE ${pad(n)} / 06</span></div><div class="pstamp">${stampSVG(n, pg.dataset.stamp, pg.dataset.icon)}</div>`);
   leaf.insertAdjacentHTML('beforeend', '<div class="mrz" aria-hidden="true">P&lt;DIW&lt;&lt;LIGHTS&lt;&lt;CHAOS&lt;&lt;2026&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>');
 });
 
 /* =============== NAVIGATION =============== */
 const pages = $$('.page'), pips = $('#pips');
-for (let i = 1; i < 8; i++) pips.appendChild(document.createElement('i'));
+for (let i = 1; i < 7; i++) pips.appendChild(document.createElement('i'));
 let cur = 0;
 const ACC = Array.from({ length: 10 }, () => ['#ffe08a', '#d9a845']);
 const SAP = '#1f5ae0', EME = '#0e9f6e', RUB = '#d4153f';
-const JW = [['#15347a', '#3a0f1c'], [SAP, RUB], [RUB, EME], [EME, SAP], [SAP, RUB], [RUB, EME], [EME, SAP], [EME, RUB], [SAP, EME]];
-const onEnter = { 2: () => { Snd.stamp(); }, 7: () => enterFinal() };
+const JW = [['#15347a', '#3a0f1c'], [SAP, RUB], [RUB, EME], [EME, SAP], [SAP, RUB], [RUB, EME], [EME, RUB], [SAP, EME]];
+const onEnter = { 2: () => { Snd.stamp(); }, 6: () => enterFinal() };
 function go(n) {
   cur = n;
   const ac = ACC[n] || ACC[1]; document.body.style.setProperty('--acc', ac[0]); document.body.style.setProperty('--acc2', ac[1]);
   const jw = JW[n] || JW[1]; document.body.style.setProperty('--jw', jw[0]); document.body.style.setProperty('--jw2', jw[1]);
   pages.forEach((p, i) => { p.classList.toggle('active', i === n); p.classList.toggle('past', i < n); });
   pages[n].scrollTop = 0;
-  $$('i', pips).forEach((d, i) => { d.className = i + 1 < Math.min(n, 8) ? 'done' : i + 1 === n ? 'cur' : ''; });
-  $('#back').hidden = !(n >= 2 && n <= 6);
+  $$('i', pips).forEach((d, i) => { d.className = i + 1 < Math.min(n, 7) ? 'done' : i + 1 === n ? 'cur' : ''; });
+  $('#back').hidden = !(n >= 2 && n <= 5);
   $('#hud').classList.toggle('on', n > 0); document.body.classList.toggle('fest', n > 0);
   if (n > 0) for (let q = 0; q < 4; q++) setTimeout(() => add(petal()), q * 220);
   if (onEnter[n]) onEnter[n]();
-  if (n >= 2 && n <= 6) setTimeout(() => Snd.stamp(), 1000);
+  if (n >= 2 && n <= 5) setTimeout(() => Snd.stamp(), 1000);
   if (n > 1) sparkBurst(26);
 }
 $('#back').onclick = () => go(Math.max(1, cur - 1));
 $$('[data-next]').forEach(b => b.addEventListener('click', () => go(cur + 1)));
-$$('#p3 .bd,#p4 .bd,#p6 .bd,#p7 .bd').forEach(bd => { const b = document.createElement('button'); b.className = 'link'; b.textContent = 'Skip to RSVP →'; b.onclick = () => go(6); bd.appendChild(b); });
+$$('#p3 .bd,#p4 .bd,#p6 .bd').forEach(bd => { const b = document.createElement('button'); b.className = 'link'; b.textContent = 'Skip to RSVP →'; b.onclick = () => go(5); bd.appendChild(b); });
 
 /* =============== PAGE 1 · MATCHSTICK + DIYA =============== */
 (function petals() {
@@ -1141,7 +1111,7 @@ async function ignite() {
   diyaEl.classList.add('lit'); ambient = true; document.body.classList.add('spk'); sparkBurst(70, w.x, w.y); Snd.chime();
   await wait(600); match.classList.add('done');
   await wait(1500);
-  Snd.whoosh(); flameTransition(w.x, w.y - 20, () => { go(S.confirmed ? 7 : 1); });
+  Snd.whoosh(); flameTransition(w.x, w.y - 20, () => { go(S.confirmed ? 6 : 1); });
 }
 function flameTransition(x, y, cb) {
   const f = $('#flash'); f.style.left = x + 'px'; f.style.top = y + 'px'; f.className = ''; void f.offsetWidth; f.classList.add('on');
@@ -1234,8 +1204,8 @@ $('#accept').onclick = async () => {
 $$('#rsvp button').forEach(b => b.onclick = () => {
   S.rsvp = b.dataset.r; save(); $('#chip').textContent = S.rsvp; stage('stC'); partyUI(); sparkBurst(20); Snd.chime();
 });
-$('#boring').onclick = () => { post({ type: 'rsvp', name: S.name, rsvp: 'Sadly, I’m boring' }); go(8); };
-$('#undecline').onclick = () => go(6);
+$('#boring').onclick = () => { post({ type: 'rsvp', name: S.name, rsvp: 'Sadly, I’m boring' }); go(7); };
+$('#undecline').onclick = () => go(5);
 $('#changeAns').onclick = () => stage('stB');
 function partyUI() {
   $('#guests').hidden = S.party === 0;
@@ -1253,9 +1223,8 @@ $('#lock').onclick = async () => {
   btn.disabled = false;
   if (res && res.lucky) S.lucky = Number(res.lucky);
   else if (!S.lucky) S.lucky = 1 + Math.floor(Math.random() * 999);
-  if (S.mission == null) S.mission = Math.floor(Math.random() * MISSIONS.length);
   S.confirmed = true; save();
-  flashScreen(); Snd.boom(true); go(7);
+  flashScreen(); Snd.boom(true); go(6);
 };
 async function rollLucky() {
   const el = $('#pLucky'); if (S.luckyShown || reduce) { el.textContent = luckyNo(); return; }
@@ -1285,14 +1254,7 @@ function renderPass() {
   $('#pLucky').textContent = luckyNo();
   $('#pNo').textContent = 'DW-' + String(hash((S.name || 'guest') + S.rsvp) % 10000).padStart(4, '0');
   $('#qr').innerHTML = qrSVG((S.name || 'guest') + '|' + S.rsvp + '|' + (S.aura || ''));
-  if (S.decoded && S.mission != null) showMission(); else $('#pMission').innerHTML = '<button class="dec" id="decrypt">🔓 TAP TO DECRYPT</button>';
 }
-function showMission() { const d = document.createElement('div'); d.className = 'val'; d.textContent = fmtMission(MISSIONS[S.mission]); $('#pMission').innerHTML = ''; $('#pMission').appendChild(d); }
-$('#pass').addEventListener('click', async e => {
-  if (!e.target.closest('#decrypt')) return; const b = e.target.closest('#decrypt'); b.disabled = true;
-  for (let i = 0; i < (reduce ? 1 : 16); i++) { b.textContent = 'MISSION #' + pad(Math.floor(rnd(1, 109))) + ' ▒▒▒▒▒▒'; Snd.tick(); await wait(70); }
-  S.decoded = true; save(); showMission(); Snd.chime(); sparkBurst(30, W / 2, H / 2);
-});
 function renderWall() {
   const el = $('#credits'); el.innerHTML = '';
   const row = (name, role, you, i) => { const d = document.createElement('div'); d.className = 'cr' + (you ? ' you' : ''); d.style.animationDelay = (i * .12) + 's'; d.innerHTML = '<b></b><small></small>'; $('b', d).textContent = name; $('small', d).textContent = role; el.appendChild(d); };
